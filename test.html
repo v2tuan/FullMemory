@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamy Continuous Image Pop-up Effect</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden; /* Ẩn thanh cuộn */
+        background-color: rgb(238, 144, 230); /* Màu nền tối */
+    }
+    
+    img {
+        position: absolute;
+        width: 100px; /* Kích thước hình ảnh */
+        height: auto; /* Giữ tỉ lệ hình ảnh */
+        pointer-events: none; /* Không cho phép tương tác với hình ảnh */
+        opacity: 50; /* Bắt đầu với độ mờ 0 */
+        transition: transform 1s, opacity 1s; /* Thêm hiệu ứng chuyển động và độ mờ */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Tạo bóng cho hình ảnh */
+    }
+    
+    .show {
+        opacity: 1; /* Đưa độ mờ về 1 */
+        transform: scale(1.2) rotate(10deg); /* Phóng to và xoay hình ảnh */
+    }
+    
+</style>
+<body>
+    <audio id="background-music" autoplay muted loop>
+        <source src="fullmemory.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+</body>
+<script>
+    const images = [];
+const number = [1, 7, 10, 38];
+
+// Tạo mảng hình ảnh từ 1 đến 49
+for (let i = 1; i <= 49; i++) {
+    if (number.includes(i)) {
+        continue; // Bỏ qua các số có trong mảng number
+    }
+    images.push(`image/${i}.jpg`); // Tạo tên hình ảnh từ 1 đến 49
+}
+
+let selectedImages = []; // Mảng để theo dõi hình ảnh đã chọn
+
+function getRandomImage() {
+    if (selectedImages.length === images.length) {
+        // Nếu đã chọn tất cả hình ảnh, làm mới danh sách
+        selectedImages = [];
+    }
+
+    let randomIndex;
+    let selectedImage;
+
+    do {
+        randomIndex = Math.floor(Math.random() * images.length); // Chọn ngẫu nhiên chỉ số
+        selectedImage = images[randomIndex]; // Lấy hình ảnh theo chỉ số
+    } while (selectedImages.includes(selectedImage)); // Lặp lại cho đến khi chọn được hình ảnh chưa được chọn
+
+    selectedImages.push(selectedImage); // Thêm hình ảnh đã chọn vào danh sách
+    return selectedImage; // Trả về hình ảnh đã chọn
+}
+
+function openImages(count) {
+    for (let j = 0; j < count; j++) { // Vòng lặp để tạo nhiều hình ảnh
+        const img = document.createElement('img');
+        img.src = getRandomImage(); // Chọn ngẫu nhiên hình ảnh mà không lặp lại
+        img.style.position = 'absolute'; // Đặt vị trí của hình ảnh là tuyệt đối
+        img.style.left = Math.random() * window.innerWidth + 'px'; // Vị trí ngẫu nhiên theo chiều ngang
+        img.style.top = Math.random() * window.innerHeight + 'px'; // Vị trí ngẫu nhiên theo chiều dọc
+        img.style.transition = 'transform 1s, opacity 1s'; // Thêm hiệu ứng chuyển động và độ mờ
+        img.style.opacity = 0; // Bắt đầu với độ mờ 0
+
+        document.body.appendChild(img);
+        
+        // Hiện hình ảnh với hiệu ứng
+        setTimeout(() => {
+            img.style.opacity = 1; // Đưa độ mờ về 1
+            img.style.transform = 'scale(1.1)'; // Phóng to và xoay hình ảnh
+        }, 100);
+    }
+}
+
+// Mở hình ảnh mỗi 100 milliseconds và tạo 3 hình ảnh cùng lúc
+setInterval(() => openImages(3), 600); // Mở 3 hình ảnh mỗi 100 milliseconds
+
+const audio = document.getElementById('background-music');
+
+// Tự động bật âm thanh khi người dùng tương tác lần đầu
+window.addEventListener('click', () => {
+    audio.muted = false;
+    audio.play();
+});
+
+// Cố gắng phát nhạc ngay từ đầu (nhưng có thể bị chặn)
+audio.play().catch(() => {
+    console.log('Phát nhạc bị chặn, cần người dùng tương tác.');
+});
+
+</script>
+</html>
