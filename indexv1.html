@@ -3,35 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Animation</title>
+    <title></title>
     <style>
         body {
+            margin: 0;
+            overflow: hidden;
             background-color: rgb(255, 230, 250); /* Màu nền dễ thương */
-            background-color: #0b1522;
-            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             font-family: 'Comic Sans MS', cursive, sans-serif;
-            margin: 0; /* Xóa margin để có toàn bộ không gian */
-            height: 100vh; /* Đặt chiều cao của body bằng 100% chiều cao viewport */
-            display: flex; /* Sử dụng Flexbox để căn giữa */
-            flex-direction: column; /* Căn giữa theo chiều dọc */
-            justify-content: center; /* Căn giữa theo chiều dọc */
-            align-items: center; /* Căn giữa theo chiều ngang */
-            overflow: hidden; /* Ẩn overflow */
-        }
-
-        #heart {
-            fill: red;
-            width: 50px;
-            animation: pulse 1s ease infinite;
-            margin: 50px 0; /* Tạo khoảng cách giữa trái tim và nút */
-            position: relative; /* Đặt vị trí tương đối để căn giữa */
-            z-index: 2; /* Đặt trái tim ở trên cùng */
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
         }
 
         /* Style cho nút */
@@ -48,8 +30,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            position: relative;
-            z-index: 1; /* Đặt nút ở phía dưới trái tim */
+        }
+
+        #start-button img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; /* Ảnh mèo hình tròn */
         }
 
         #start-button:hover {
@@ -69,14 +55,12 @@
         }
     </style>
 </head>
-<body id="body">
-    <svg id="heart" viewBox="0 0 32 29.6">
-        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-            c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-    </svg> 
+<body>
+
     <!-- Nút hình mèo dễ thương -->
     <button id="start-button">
-        How I Feel Right Now ?
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Mèo cute">
+        how I feel right now
     </button>
 
     <!-- Phát nhạc nền -->
@@ -88,7 +72,7 @@
     <script>
         const images = [];
 
-        // Tạo mảng hình ảnh từ 1 đến 26
+        // Tạo mảng hình ảnh từ 1 đến 49
         for (let i = 1; i <= 26; i++) {
             images.push(`image/${i}.jpg`);
         }
@@ -123,17 +107,14 @@
         }
 
         const startButton = document.getElementById('start-button');
-        const heart = document.getElementById('heart');
-        const body = document.getElementById('body');
         const audio = document.getElementById('background-music');
 
         startButton.addEventListener('click', () => {
             audio.play(); // Bắt đầu phát nhạc
-            setInterval(() => openImages(4), 400); // Mở hình ảnh mỗi 400ms
+            setInterval(() => openImages(4), 400); // Mở hình ảnh mỗi 600ms
             startButton.style.display = 'none'; // Ẩn nút sau khi nhấp
-            heart.style.display = 'none';
-            body.style.backgroundColor = "rgb(255, 230, 250)";
         });
     </script>
+
 </body>
 </html>
