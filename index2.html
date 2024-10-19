@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: rgb(255, 230, 250); /* Màu nền dễ thương */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        /* Style cho nút */
+        #start-button {
+            padding: 15px 40px;
+            font-size: 24px;
+            background-color: #ff90e8;
+            color: white;
+            border: 2px solid #ff60d9;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #start-button img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; /* Ảnh mèo hình tròn */
+        }
+
+        #start-button:hover {
+            background-color: #ff60d9;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1); /* Phóng to nhẹ khi hover */
+        }
+
+        img {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            pointer-events: none;
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nút hình mèo dễ thương -->
+    <button id="start-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Mèo cute">
+        how I feel right now
+    </button>
+
+    <!-- Phát nhạc nền -->
+    <audio id="background-music" loop>
+        <source src="fullmemory.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+
+    <script>
+        const images = [];
+
+        // Tạo mảng hình ảnh từ 1 đến 49
+        for (let i = 1; i <= 26; i++) {
+            images.push(`image/${i}.jpg`);
+        }
+
+        let selectedImages = [];
+
+        function getRandomImage() {
+            if (selectedImages.length === images.length) selectedImages = [];
+            let randomIndex, selectedImage;
+            do {
+                randomIndex = Math.floor(Math.random() * images.length);
+                selectedImage = images[randomIndex];
+            } while (selectedImages.includes(selectedImage));
+            selectedImages.push(selectedImage);
+            return selectedImage;
+        }
+
+        function openImages(count) {
+            for (let j = 0; j < count; j++) {
+                const img = document.createElement('img');
+                img.src = getRandomImage();
+                img.style.left = Math.random() * window.innerWidth + 'px';
+                img.style.top = Math.random() * window.innerHeight + 'px';
+                img.style.opacity = 0;
+                document.body.appendChild(img);
+
+                setTimeout(() => {
+                    img.style.opacity = 1;
+                    img.style.transform = 'scale(1.1)';
+                }, 100);
+            }
+        }
+
+        const startButton = document.getElementById('start-button');
+        const audio = document.getElementById('background-music');
+
+        startButton.addEventListener('click', () => {
+            audio.play(); // Bắt đầu phát nhạc
+            setInterval(() => openImages(4), 400); // Mở hình ảnh mỗi 600ms
+            startButton.style.display = 'none'; // Ẩn nút sau khi nhấp
+        });
+    </script>
+
+</body>
+</html>
