@@ -66,6 +66,17 @@
             transition: transform 1s, opacity 1s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
+
+        #hearts {
+            position: absolute;
+            width: 50px;
+            height: auto;
+            pointer-events: none;
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+            box-shadow: none;
+            animation: pulse 1s ease infinite
+        }
     </style>
 </head>
 <body id="body">
@@ -86,13 +97,20 @@
 
     <script>
         const images = [];
+        const hearts = [];
 
         // Tạo mảng hình ảnh từ 1 đến 26
         for (let i = 1; i <= 26; i++) {
             images.push(`image/${i}.jpg`);
         }
 
+        // Tạo mảng hình ảnh từ 1 đến 26
+        for (let i = 1; i <= 31; i++) {
+            hearts.push(`image/h${i}.png`);
+        }
+
         let selectedImages = [];
+        let selectedHeart = [];
 
         function getRandomImage() {
             if (selectedImages.length === images.length) selectedImages = [];
@@ -105,8 +123,20 @@
             return selectedImage;
         }
 
+        function getRandomHeart() {
+            if (selectedHeart.length === hearts.length) selectedHeart = [];
+            let randomIndex, selectedImage;
+            do {
+                randomIndex = Math.floor(Math.random() * hearts.length);
+                selectedImage = hearts[randomIndex];
+            } while (selectedHeart.includes(selectedImage));
+            selectedHeart.push(selectedImage);
+            return selectedImage;
+        }
+
         function openImages(count) {
             for (let j = 0; j < count; j++) {
+                // anh
                 const img = document.createElement('img');
                 img.src = getRandomImage();
                 img.style.left = Math.random() * window.innerWidth + 'px';
@@ -117,6 +147,21 @@
                 setTimeout(() => {
                     img.style.opacity = 1;
                     img.style.transform = 'scale(1.1)';
+                }, 100);
+            }
+            for (let j = 0; j < 2; j++) {
+                // heart
+                const heart = document.createElement('img');
+                heart.id = 'hearts'
+                heart.src = getRandomHeart();
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                heart.style.opacity = 0;
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.opacity = 1;
+                    heart.style.transform = 'scale(1.1)';
                 }, 100);
             }
         }
